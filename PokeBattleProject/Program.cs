@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace PokeBattleProject { 
 
@@ -99,63 +100,103 @@ public class Program {
 
         static void Main(string[] args)
         {
+            PrintBannerToConsole();
+            
+            // 1. The player starts the game.
+            string[] correctAnswers = { "yes", "no" };
+            var start = Ask("Do you want to start a new game? (yes/no)", correctAnswers);
+            if (start == "no")
+            {
+                Console.WriteLine("Bye!");
+                System.Environment.Exit(1); // stop the program
+            }
+            
+            // 2. The player gives a name to the first trainer.
+            var answer1 = Ask("Please enter a name for trainer 1");
+            var trainer1 = new Trainer(answer1);
+
+            // 3. The player gives a name to the second trainer.
+            var answer2 = Ask("Please enter a name for trainer 2");
+            var trainer2 = new Trainer(answer2);
+
+            // 4. The first trainer throws the first pokeball on its belt.
+            // 5. The pokeball released the charmander and charmander does its battle cry.
+            // see Trainer.throwPokeball() for implementation
+            var charmander1 = trainer1.ThrowPokeball();
+            
+            // 6. The second trainer throws the first pokeball on its belt.
+            // 7. The pokeball released the charmander and charmander does its battle cry.
+            // see Trainer.throwPokeball() for implementation
+            var charmander2 = trainer2.ThrowPokeball();
+            
+            // 8. The first trainer returns the charmander back to its pokeball.
+            trainer1.returnPokemon(charmander1);
+            
+            // 9. The second trainer returns the charmander back to its pokeball.
+            trainer2.returnPokemon(charmander2);
+            
+            // 10. Repeat 4 to 9 until all pokeballs have been used by both trainers.
+            // The player can quit or restart the game.
+
+            //var charm = ball1.Open();
+            //ball1.Close(charm);
+
+
+            //charm.battlecry();
+
+            //// game loop
+            //while (true)
+            //{
+            //    Console.Write("Welke naam krijgt de Charmander? (of type 'quit' om te stoppen) ");
+            //    string answer = Console.ReadLine();
+
+            //    if (answer == "quit") break;
+
+            //    charm.nickname = answer;
+            //    for (int teller = 0; teller < 10; teller++)
+            //    {
+            //        charm.battlecry();
+            //    }
+            //}
+        }
+
+        public static void PrintBannerToConsole()
+        {
             Console.WriteLine("****************************");
             Console.WriteLine("* Pokemon Battle Simulator *");
             Console.WriteLine("****************************");
             Console.WriteLine("");
-
-            // create a new trainer
-            Console.WriteLine("Please enter a name for trainer 1: ");
-            var answer1 = Console.ReadLine();
-            var trainer1 = new Trainer(answer1);
-
-            Console.WriteLine("Please enter a name for trainer 2: ");
-            var answer2 = Console.ReadLine();
-            var trainer2 = new Trainer(answer2);
-
-            // create new pokeball, with a new Charmander, and add it to trainer belt
-            
-            try
+        }
+        
+        public static String? Ask(String question, string[] validOptions = null)
+        {
+            while (true)
             {
-                trainer1.takePokeball(new Pokeball(new Charmander("Fireball 1")));
-                trainer1.takePokeball(new Pokeball(new Charmander("Fireball 2")));
-                trainer1.takePokeball(new Pokeball(new Charmander("Fireball 3")));
-                trainer1.takePokeball(new Pokeball(new Charmander("Fireball 4")));
-                trainer1.takePokeball(new Pokeball(new Charmander("Fireball 5")));
-                trainer1.takePokeball(new Pokeball(new Charmander("Fireball 6")));
-                
-                // if I want to test that maximum 6 balls can be added, I need to 
-                // trainer1.takePokeball(new Pokeball(new Charmander("Fireball 7")));
-            } catch (Exception e)
-            { 
-                Console.Write("*** Exception! *** " + e.Message);
-                System.Environment.Exit(1);     // stop the program
+                Console.Write(question + ": ");
+                var answer = Console.ReadLine();
+
+                if (validOptions != null && validOptions.GetType().IsArray )
+                {
+                    if (validOptions.Contains(answer))
+                    {
+                        return answer;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Please use one of these answers: " + String.Join(", ", validOptions));
+                    }
+                }
+                else
+                {
+                    return answer;
+                }
             }
 
-    //var charm = ball1.Open();
-    //ball1.Close(charm);
 
-
-    //charm.battlecry();
-
-    //// game loop
-    //while (true)
-    //{
-    //    Console.Write("Welke naam krijgt de Charmander? (of type 'quit' om te stoppen) ");
-    //    string answer = Console.ReadLine();
-
-    //    if (answer == "quit") break;
-
-    //    charm.nickname = answer;
-    //    for (int teller = 0; teller < 10; teller++)
-    //    {
-    //        charm.battlecry();
-    //    }
-    //}
-}
+        }
 
 
 
 
-}
-}
+}   // end of class
+}   // end of namespace

@@ -5,13 +5,13 @@ namespace PokeBattleProject
     public class Trainer
     {
         public string Name;
-        public List<Pokeball> belt;
+        private List<Pokeball> _belt;
         private int _maxBalls = 6;
 
         public Trainer(string newName)
         {
             this.Name = newName;
-            this.belt = new List<Pokeball>();
+            this._belt = new List<Pokeball>();
             
             this.takePokeball(new Pokeball(new Charmander("Fireball 1")));
             this.takePokeball(new Pokeball(new Charmander("Fireball 2")));
@@ -26,23 +26,27 @@ namespace PokeBattleProject
 
         public void takePokeball(Pokeball newPokeball)
         {
-            Console.WriteLine("Trainer.takePokeball(): " + newPokeball.ToString());
+            // Console.WriteLine("Trainer.takePokeball(): " + newPokeball.ToString());
 
-            if (this.belt.Count >= this._maxBalls)
+            if (this._belt.Count >= this._maxBalls)
             {
                 throw new Exception("Error: can't add more than "+ this._maxBalls.ToString() + " Pokeballs to this belt.");
             }
             else
             {
-                this.belt.Add(newPokeball);      // add given Pokeball to belt
+                this._belt.Add(newPokeball);      // add given Pokeball to belt
             }
         }
 
-        public Charmander throwPokeball()
+        // Will take the first Pokeball on its belt and throw it (call .Open() on the Pokeball)
+        public Charmander ThrowPokeball()
         {
-            //var c = this.belt.First<Charmander>();
+            // 5. The pokeball released the charmander and charmander does its battle cry.
 
-            return null;
+            var ball = this._belt.First();
+            var charmander = ball.Open();
+                
+            return charmander;
         }
 
         public void returnPokemon(Charmander charmander)

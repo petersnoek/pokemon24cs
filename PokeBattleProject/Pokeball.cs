@@ -27,6 +27,7 @@ namespace PokeBattleProject
             }
         }
 
+        // Open() will release the Pokeball, call .Battlecry() on its charmander, and return the charmander.
         public Charmander? Open()
         {
             if (this.charmander != null)
