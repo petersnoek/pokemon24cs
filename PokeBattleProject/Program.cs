@@ -66,7 +66,7 @@ public class Program {
         Create a Pokeball class.
         V - The pokeball is empty or it can contain a single charmander.
         V - The pokeball can be thrown, which opens it up, and
-        V   then releases the charmander inside of it.   (implemented by calling battlecry()
+        V   then releases the charmander inside of it.   (implemented by calling Battlecry()
         V The charmander can be returned back to its pokeball, which closes the pokeball again.
 
         Create a Trainer class.
@@ -102,62 +102,24 @@ public class Program {
         {
             PrintBannerToConsole();
             
-            // 1. The player starts the game.
-            string[] correctAnswers = { "yes", "no" };
-            var start = Ask("Do you want to start a new game? (yes/no)", correctAnswers);
-            if (start == "no")
+            while (true)
             {
-                Console.WriteLine("Bye!");
-                System.Environment.Exit(1); // stop the program
+                // 1. The player starts the game.
+                string[] correctAnswers = { "yes", "no" };
+                var start = Ask("Do you want to start a new game? (yes/no)", correctAnswers);
+                if (start == "no")
+                {
+                    Console.WriteLine("Bye!");
+                    System.Environment.Exit(1); // stop the program
+                }
+
+                // Create Game object and run it
+                Game g = new Game();
+                g.Run();
+
             }
-            
-            // 2. The player gives a name to the first trainer.
-            var answer1 = Ask("Please enter a name for trainer 1");
-            var trainer1 = new Trainer(answer1);
+            // The player can quit or restart the game > implemented by question at the start
 
-            // 3. The player gives a name to the second trainer.
-            var answer2 = Ask("Please enter a name for trainer 2");
-            var trainer2 = new Trainer(answer2);
-
-            // 4. The first trainer throws the first pokeball on its belt.
-            // 5. The pokeball released the charmander and charmander does its battle cry.
-            // see Trainer.throwPokeball() for implementation
-            var charmander1 = trainer1.ThrowPokeball();
-            
-            // 6. The second trainer throws the first pokeball on its belt.
-            // 7. The pokeball released the charmander and charmander does its battle cry.
-            // see Trainer.throwPokeball() for implementation
-            var charmander2 = trainer2.ThrowPokeball();
-            
-            // 8. The first trainer returns the charmander back to its pokeball.
-            trainer1.returnPokemon(charmander1);
-            
-            // 9. The second trainer returns the charmander back to its pokeball.
-            trainer2.returnPokemon(charmander2);
-            
-            // 10. Repeat 4 to 9 until all pokeballs have been used by both trainers.
-            // The player can quit or restart the game.
-
-            //var charm = ball1.Open();
-            //ball1.Close(charm);
-
-
-            //charm.battlecry();
-
-            //// game loop
-            //while (true)
-            //{
-            //    Console.Write("Welke naam krijgt de Charmander? (of type 'quit' om te stoppen) ");
-            //    string answer = Console.ReadLine();
-
-            //    if (answer == "quit") break;
-
-            //    charm.nickname = answer;
-            //    for (int teller = 0; teller < 10; teller++)
-            //    {
-            //        charm.battlecry();
-            //    }
-            //}
         }
 
         public static void PrintBannerToConsole()
@@ -168,12 +130,17 @@ public class Program {
             Console.WriteLine("");
         }
         
-        public static String? Ask(String question, string[] validOptions = null)
+        public static String Ask(String question, string[]? validOptions = null)
         {
             while (true)
             {
                 Console.Write(question + ": ");
                 var answer = Console.ReadLine();
+                if(answer.Length == 0)
+                {
+                    Console.WriteLine("Empty input not allowed, please type something.");
+                    continue;
+                }
 
                 if (validOptions != null && validOptions.GetType().IsArray )
                 {

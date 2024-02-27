@@ -1,24 +1,18 @@
 ﻿using System;
+
 namespace PokeBattleProject
 {
-    public class Charmander
+    public class Charmander : Pokemon
     {
-        public string nickname;
-        public string strength;
-        public string weakness;
-
-        // public Charmander(string newNickname) : base(newNickname) {
-        public Charmander(string newNickname)
+        public Charmander(string newNickname) : base(newNickname)
         {
-            this.nickname = newNickname;
-            this.strength = "Fire";
-            this.weakness = "Water";
-            // Console.WriteLine("Charmander() constructor: created new object. nickname: " + this.nickname + " with strength: " + this.strength + " and weakness: " + this.weakness);
+            this.strength = Energytype.Fire;
+            this.weakness = Energytype.Water;
         }
 
-        public void battlecry()
+        public override void Battlecry()
         {
-            Console.WriteLine("!!! " + this.nickname.ToUpper() + " !!!");
+            Console.WriteLine("[Charmander] " + this.nickname.ToUpper() + " !!!");
         }
     }
 }

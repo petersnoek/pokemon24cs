@@ -4,21 +4,22 @@ namespace PokeBattleProject
 
     public class Trainer
     {
+        private Random random;
         public string Name;
         private List<Pokeball> _belt;
         private int _maxBalls = 6;
 
-        public Trainer(string newName)
+        public Trainer(string newName, Random random)
         {
             this.Name = newName;
             this._belt = new List<Pokeball>();
             
-            this.takePokeball(new Pokeball(new Charmander("Fireball 1")));
-            this.takePokeball(new Pokeball(new Charmander("Fireball 2")));
-            this.takePokeball(new Pokeball(new Charmander("Fireball 3")));
-            this.takePokeball(new Pokeball(new Charmander("Fireball 4")));
-            this.takePokeball(new Pokeball(new Charmander("Fireball 5")));
-            this.takePokeball(new Pokeball(new Charmander("Fireball 6")));
+            this.takePokeball(new Pokeball(this, new Charmander("Charmander 1")));
+            this.takePokeball(new Pokeball(this, new Charmander("Charmander 2")));
+            this.takePokeball(new Pokeball(this, new Bulbasaur("Bulbasaur 1")));
+            this.takePokeball(new Pokeball(this, new Bulbasaur("Bulbasaur 2")));
+            this.takePokeball(new Pokeball(this, new Squirtle("Squirtle 1")));
+            this.takePokeball(new Pokeball(this, new Squirtle("Squirtle 2")));
             
             // if I want to test that maximum 6 balls can be added, I need to 
             // this.takePokeball(new Pokeball(new Charmander("Fireball 7")));
@@ -39,17 +40,19 @@ namespace PokeBattleProject
         }
 
         // Will take the first Pokeball on its belt and throw it (call .Open() on the Pokeball)
-        public Charmander ThrowPokeball()
+        public Pokemon? ThrowPokeball()
         {
-            // 5. The pokeball released the charmander and charmander does its battle cry.
+            // 5. The pokeball released the pokemon and the pokemon does its battle cry.
+            // haal een willekeurig nummer op tussen 0 en het aantal pokeballs in de belt
+            int willekeurigNummer = this.random.Next(0, this._belt.Count);
 
-            var ball = this._belt.First();
-            var charmander = ball.Open();
+            var ball = this._belt.ElementAt(willekeurigNummer);
+            var pokemon = ball.Open();
                 
-            return charmander;
+            return pokemon;
         }
 
-        public void returnPokemon(Charmander charmander)
+        public void returnPokemon(Pokemon? pokemon)
         {
 
         }

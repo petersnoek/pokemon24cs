@@ -3,84 +3,71 @@ namespace PokeBattleProject
 {
     public class Pokeball
     {
-        public Charmander? charmander;
-        public Boolean hasCharmanderInside = false;
+        public Trainer? trainer;
+        public Pokemon? pokemon;
+        public Boolean hasPokemonInside = false;
 
         // constructor
-        public Pokeball(Charmander newCharmander)
+        public Pokeball(Trainer newTrainer, Pokemon newPokemon)
         {
-            if (newCharmander == null)
-            {
-                Console.WriteLine("Pokeball(): constructor failed; given charmander is null.");
-            }
-            else
-            {
-                if (newCharmander.GetType().ToString() != "PokeBattleProject.Charmander")
-                {
-                    Console.WriteLine("Pokeball(): constructor failed; given charmander is not the correct type.");
-                }
-                else
-                {
-                    this.charmander = newCharmander;
-                    // Console.WriteLine("Pokeball() constructor: created new object. Captured Charmander " + newCharmander.nickname);
-                }
-            }
+            this.trainer = newTrainer;
+            this.pokemon = newPokemon;
         }
 
-        // Open() will release the Pokeball, call .Battlecry() on its charmander, and return the charmander.
-        public Charmander? Open()
+        // Open() will release the Pokeball, call .Battlecry() on its pokemon, and return the pokemon.
+        public Pokemon? Open()
         {
-            if (this.charmander != null)
+            if (this.pokemon != null)
             {
-                // there's a charmander in the pokeball. make it battlecry, release it, return reference
-                Console.WriteLine("Pokeball.Open(): released charmander (" + this.charmander.nickname + ")");
-                var releaseCharmander = this.charmander;
-                this.charmander.battlecry();
-                this.charmander = null;
-                this.hasCharmanderInside = false;
-                return releaseCharmander;
+                // there's a pokemon in the pokeball. make it Battlecry, release it, return reference
+                //Console.WriteLine("Pokeball.Open(): released pokemon (" + this.pokemon.nickname + ")");
+                var releasedPokemon = this.pokemon;
+                releasedPokemon.Battlecry();
+                
+                this.pokemon = null;
+                this.hasPokemonInside = false;
+                return releasedPokemon;
             }
             else
             {
-                // there's no charmander in the pokeball, so do nothing and return null
-                Console.WriteLine("Pokeball.Open(): no charmander to release.");
+                // there's no pokemon in the pokeball, so do nothing and return null
+                Console.WriteLine("Pokeball.Open(): no pokemon to release.");
                 return null;
             }
         }
 
-        public void Close(Charmander captureCharmander)
+        public void Close(Pokemon capturePokemon)
         {
-            if(captureCharmander == null)
+            if(capturePokemon == null)
             {
-                Console.WriteLine("Pokeball.Close(): error, can't close and capture, because given charmander is null.");
+                Console.WriteLine("Pokeball.Close(): error, can't close and capture, because given pokemon is null.");
             }
 
-            if (this.charmander == null)
+            if (this.pokemon == null)
             {
-                this.charmander = captureCharmander;
-                this.hasCharmanderInside = true;
-                Console.WriteLine("Pokeball.Close(): captured charmander (" + captureCharmander.nickname + ")");
+                this.pokemon = capturePokemon;
+                this.hasPokemonInside = true;
+                Console.WriteLine("Pokeball.Close(): captured pokemon (" + capturePokemon.nickname + ")");
             } else
             {
-                Console.WriteLine("Pokeball.Close(): error, can't close and capture, because there is already a charmander inside.");
+                Console.WriteLine("Pokeball.Close(): error, can't close and capture, because there is already a pokemon inside.");
             }
         }
 
-        public bool HasCharmanderInside()
+        public bool HasPokemonInside()
         {
-            Console.WriteLine("Pokeball.HasCharmanderInside(): " + this.hasCharmanderInside.ToString());
-            return this.hasCharmanderInside;
+            return this.hasPokemonInside;
         }
 
         public override string ToString()
         {
-            if (this.charmander == null)
+            if (this.pokemon == null)
             {
                 return "Pokeball()";
             }
             else
             {
-                return "Pokeball ( charmander = " + this.charmander.nickname + ")";
+                return "Pokeball(pokemon=" + this.pokemon.nickname + ")";
             }
         }
     }
